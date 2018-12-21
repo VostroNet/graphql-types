@@ -2,7 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { GraphQLError } from "graphql/error";
 import { Kind } from "graphql/language";
 
-function isNumber(value) {
+function isNotNumber(value) {
   return (value === null ||
     typeof value === "undefined" ||
     isNaN(value) ||
@@ -11,7 +11,7 @@ function isNumber(value) {
 }
 
 function processValue(value) {
-  if (!isNumber(value)) {
+  if (isNotNumber(value)) {
     throw new TypeError(`Value is not a number: ${value}`);
   }
   return parseFloat(value);
@@ -25,7 +25,7 @@ export default new GraphQLScalarType({
   },
 
   parseValue(value) {
-    if (!isNumber(value)) {
+    if (isNotNumber(value)) {
       throw new TypeError(`Value is not a number: ${value}`);
     }
     return parseFloat(value);
