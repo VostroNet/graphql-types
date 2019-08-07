@@ -1,6 +1,13 @@
 {
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/lib/express.js"
+    },
+    {
       "type": "node",
       "name": "Jest",
       "request": "launch",
@@ -48,7 +55,7 @@
     "name": "Launch Express Debug",
     "type": "node",
     "request": "launch",
-    "args": ["./build/tests/express.js"],
+    "args": ["./lib/express.js"],
     "env": {
       "NODE_ENV": "development",
       "DEBUG": "*"
