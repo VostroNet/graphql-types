@@ -1,6 +1,6 @@
 {
   "name": "@vostro/graphql-types",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -10,33 +10,32 @@
   "author": "VostroNet",
   "license": "GPL-3.0",
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "apollo-server-express": "^2.4.7",
-    "babel-eslint": "^10.0.1",
-    "del": "^3.0.0",
-    "eslint": "^5.10.0",
-    "eslint-plugin-jest": "^22.1.2",
-    "express": "^4.16.4",
-    "graphql": "^14.0.2",
-    "gulp": "^4.0.0",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "apollo-server-express": "^2.8.1",
+    "babel-eslint": "^10.0.2",
+    "del": "^5.0.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-jest": "^22.14.1",
+    "express": "^4.17.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-eslint": "^5.0.0",
+    "gulp-eslint": "^6.0.0",
     "gulp-jest": "^4.0.2",
     "gulp-jsdoc3": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
-    "graphql": "^14.3.1"
-    "source-map-support": "^0.5.10"
-    "regenerator-runtime": "^0.13.1",
+    "graphql": "^14.4.2",
+    "source-map-support": "^0.5.13",
+    "regenerator-runtime": "^0.13.3"
   },
   "peerDependencies": {
-    "graphql": "^14.3.1"
+    "graphql": "^14.4.2"
   },
   "dependencies": {
-    "core-js": "^3.0.1"
+    "core-js": "^3.1.4"
   }
 }

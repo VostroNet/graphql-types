@@ -34,6 +34,10 @@ const server = new ApolloServer({
               type: createQueryType("TEST", schema),
             },
           },
+          resolve(source, args, context, info) {
+            console.log("test", args);
+            return JSON.stringify(args.where);
+          }
         },
       },
     }),
