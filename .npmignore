@@ -63,7 +63,6 @@ typings/
 yarn.lock
 yalc.lock
 
-src/
 __tests__/
 .vscode/
 .babelrc
