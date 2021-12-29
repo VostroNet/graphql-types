@@ -1,4 +1,3 @@
-
 import {
   GraphQLScalarType,
   GraphQLInt,
@@ -7,16 +6,16 @@ import {
   GraphQLString,
   GraphQLInputObjectType,
   GraphQLList,
+  GraphQLInputFieldConfig,
 } from "graphql";
+import { ObjMap } from "graphql/jsutils/ObjMap";
 
 import { Kind } from "graphql/language";
 
 import property from "./utils/property";
 
-
 // To generate an strict model for query types instead of blank json types
 // this should fix apollo's variable cache issue
-
 
 // const valueFuncs = ["eq", "ne", "gte", "lte", "lt", "not", "is", "like",
 //   "notLike", "iLike", "notILike", "startsWith", "endsWith", "substring",
@@ -29,25 +28,59 @@ import property from "./utils/property";
 //   "strictRight", "noExtendRight", "noExtendLeft",
 // ];
 
-
-
-
 export const defaultConfig = {
-  getFieldType(field) {
+  getFieldType() {
     return GraphQLString;
   },
-  valueFuncs: ["eq", "ne", "gte", "lte", "lt", "not", "is", "like",
-    "notLike", "iLike", "notILike", "startsWith", "endsWith", "substring",
-    "regexp", "notRegexp", "iRegexp", "notIRegexp",
+  valueFuncs: [
+    "eq",
+    "ne",
+    "gte",
+    "lte",
+    "lt",
+    "not",
+    "is",
+    "like",
+    "notLike",
+    "iLike",
+    "notILike",
+    "startsWith",
+    "endsWith",
+    "substring",
+    "regexp",
+    "notRegexp",
+    "iRegexp",
+    "notIRegexp",
   ],
   arrayFuncs: ["or", "and", "any", "all"],
-  arrayValues: ["in", "notIn", "contains", "contained",
-    "between", "notBetween", "overlap", "adjacent", "strictLeft",
-    "strictRight", "noExtendRight", "noExtendLeft",
+  arrayValues: [
+    "in",
+    "notIn",
+    "contains",
+    "contained",
+    "between",
+    "notBetween",
+    "overlap",
+    "adjacent",
+    "strictLeft",
+    "strictRight",
+    "noExtendRight",
+    "noExtendLeft",
   ],
 };
 
-export default function createQueryType(config) {
+interface QueryTypeConfig {
+  modelName: any;
+  fields: { [x: string]: any };
+  valueFuncs: any[];
+  arrayValues: any[];
+  processInnerFields: (arg0: any, arg1: any) => ObjMap<GraphQLInputFieldConfig>;
+  arrayFuncs: any[];
+  isolatedFields: { [x: string]: any };
+  processFields: (arg0: {}) => ObjMap<GraphQLInputFieldConfig>;
+}
+
+export default function createQueryType(config: QueryTypeConfig) {
   const mainInputName = `GQLTQuery${config.modelName}Where`;
   const fieldInputType = new GraphQLInputObjectType({
     name: mainInputName,
@@ -79,7 +112,7 @@ export default function createQueryType(config) {
           type: fieldType,
         };
         return o;
-      }, {});
+      }, {} as {[key: string]: {type: GraphQLInputObjectType}});
       fields = config.arrayFuncs.reduce((i, funcName) => {
         i[funcName] = {
           type: new GraphQLList(fieldInputType),

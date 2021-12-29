@@ -34,7 +34,7 @@ export default new GraphQLScalarType({
    * @param  {String} value date string
    * @return {Date}   Date object
    */
-  parseValue(value) {
+  parseValue(value: any) {
     try {
       if (!value) {
         return null;
@@ -44,7 +44,7 @@ export default new GraphQLScalarType({
       return null;
     }
   },
-  parseLiteral(ast) {
+  parseLiteral(ast: any) {
     return new Date(ast.value);
   }
 });

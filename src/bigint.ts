@@ -1,10 +1,11 @@
 import { GraphQLScalarType } from "graphql";
 import { GraphQLError } from "graphql/error";
-import { Kind } from "graphql/language";
+import { Kind, StringValueNode } from "graphql/language";
 
+// @ts-ignore
 BigInt.prototype.toJSON = function() { return this.toString(); }; //eslint-disable-line
 
-function isNumber(value) {
+function isNumber(value: any) {
   return (value === null ||
     typeof value === "undefined" ||
     isNaN(value) ||
@@ -12,7 +13,7 @@ function isNumber(value) {
     value === Number.NaN);
 }
 
-function processValue(value) {
+function processValue(value: any) {
   if (!isNumber(value)) {
     throw new TypeError(`Value is not a number: ${value}`);
   }
@@ -22,11 +23,11 @@ function processValue(value) {
 export default new GraphQLScalarType({
   name: "GQLTBigInt",
   description: "BigInt",
-  serialize(value) {
+  serialize(value: any) {
     return `${value}`;
   },
 
-  parseValue(value) {
+  parseValue(value: any) {
     return BigInt(value); //eslint-disable-line
   },
 
@@ -38,6 +39,6 @@ export default new GraphQLScalarType({
         }`,
       );
     }
-    return processValue(ast.value);
+    return processValue(ast.value) as any;
   },
 });
