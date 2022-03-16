@@ -31,40 +31,40 @@ import {
   GraphQLString,
 } from "graphql";
 
-import { Kind } from "graphql/language";
+import { Kind, ValueNode } from "graphql/language";
 
 import property from "./utils/property";
 
 
 const astToJson = {
-  [Kind.INT](ast) {
+  [Kind.INT](ast: ValueNode) {
     return GraphQLInt.parseLiteral(ast);
   },
-  [Kind.FLOAT](ast) {
+  [Kind.FLOAT](ast: ValueNode) {
     return GraphQLFloat.parseLiteral(ast);
   },
-  [Kind.BOOLEAN](ast) {
+  [Kind.BOOLEAN](ast: ValueNode) {
     return GraphQLBoolean.parseLiteral(ast);
   },
-  [Kind.STRING](ast) {
+  [Kind.STRING](ast: ValueNode) {
     return GraphQLString.parseLiteral(ast);
   },
-  [Kind.ENUM](ast) {
+  [Kind.ENUM](ast: { value: any; }) {
     return String(ast.value);
   },
-  [Kind.LIST](ast) {
-    return ast.values.map(astItem => {
+  [Kind.LIST](ast: { values: any[]; }): any {
+    return ast.values.map((astItem: ValueNode) => {
       return JSONType.parseLiteral(astItem);
     });
   },
-  [Kind.OBJECT](ast) {
-    let obj = {};
-    ast.fields.forEach(field => {
+  [Kind.OBJECT](ast: { fields: any[]; }) {
+    let obj: any = {};
+    ast.fields.forEach((field: { name: { value: any; }; value: ValueNode; }) => {
       obj[field.name.value] = JSONType.parseLiteral(field.value);
     });
     return obj;
   },
-  [Kind.VARIABLE](ast) {
+  [Kind.VARIABLE](ast: { name: { value: any; }; }) {
     /*
     this way converted query variables would be easily
     converted to actual values in the resolver.js by just
@@ -73,6 +73,9 @@ const astToJson = {
     are not accessible from GraphQLScalarType"s parseLiteral method
     */
     return property(ast.name.value);
+  },
+  [Kind.NULL](ast: { name: { value: any; }; }) {
+    return null;
   }
 };
 
@@ -83,7 +86,7 @@ const JSONType = new GraphQLScalarType({
   serialize: value => value,
   parseValue: value => typeof value === "string" ? JSON.parse(value) : value,
   parseLiteral: ast => {
-    const parser = astToJson[ast.kind];
+    const parser = astToJson[ast.kind] as any;
     return parser ? parser.call(this, ast) : null;
   }
 });
